@@ -60,6 +60,7 @@ args = parser.parse_args()
 device = torch.device(
     "cuda:{}".format(args.gpu_id) if torch.cuda.is_available() else "cpu"
 )
+print(device)
 # device = "cpu"
 
 # roc_means = []
