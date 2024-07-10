@@ -210,7 +210,7 @@ def dgl_main(test_val_neg_to_pos_edge_ratio = 1, runs_dict = None, print_loopwis
         val_roc, val_ap = get_scores(val_edges, val_edges_false, logits)
 
         # Print out performance
-        if print_loopwise:
+        if print_loopwise and ((epoch + 1)%5)==0:
             tqdm.write(
             "Epoch: " +
             str("%04d" % (epoch + 1)) +
@@ -428,7 +428,7 @@ def run():
             
             if args.datasrc == "dgl":
                 print(f"Dataset name: {dataset}, ratio: {ratio}")
-                dgl_main(test_val_neg_to_pos_edge_ratio=ratio, runs_dict=runs_dict, print_loopwise=False, dataset_name=dataset)
+                dgl_main(test_val_neg_to_pos_edge_ratio=ratio, runs_dict=runs_dict, print_loopwise=True, dataset_name=dataset)
                 print(runs_dict)
                 print(f"Mean AUC for 10 runs: {np.array(runs_dict['roc']).mean()}")
                 print(f"Mean AP for 10 runs: {np.array(runs_dict['ap']).mean()}")
@@ -451,7 +451,7 @@ def run():
 def original_run():
     for dataset in datasets:
         args.dataset = dataset
-        dgl_main(test_val_neg_to_pos_edge_ratio=1, runs_dict = {"roc": [], "ap": []}, print_loopwise=False)
+        dgl_main(test_val_neg_to_pos_edge_ratio=1, runs_dict = {"roc": [], "ap": []}, print_loopwise=True)
 
 if __name__ == "__main__":
     #original_run()
