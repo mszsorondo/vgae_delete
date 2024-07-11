@@ -8,7 +8,6 @@ import model
 import numpy as np
 import scipy.sparse as sp
 import torch
-import sys
 import torch.nn.functional as F
 from dgl.data import CiteseerGraphDataset, CoraGraphDataset, PubmedGraphDataset
 from input_data import load_data
@@ -25,6 +24,11 @@ import argparse
 os.environ["KMP_DUPLICATE_LIB_OK"] = "True"
 
 parser = argparse.ArgumentParser(description="Variant Graph Auto Encoder")
+
+parser.add_argument('mode', type=str, choices=['original', 'custom'], help='Mode of operation: original or custom')
+parser.add_argument('--dataset_name', type=str, help='Name of the dataset (required for custom mode)')
+parser.add_argument('--ratio', type=str, help='Ratio (required for custom mode)')
+
 parser.add_argument(
     "--learning_rate", type=float, default=0.01, help="Initial learning rate."
 )
@@ -474,15 +478,6 @@ def original_run():
 
 
 if __name__ == "__main__":
-    parser = argparse.ArgumentParser(description='Run experiments.')
-
-    # Add arguments
-    parser.add_argument('mode', type=str, choices=['original', 'custom'], help='Mode of operation: original or custom')
-    parser.add_argument('--dataset_name', type=str, help='Name of the dataset (required for custom mode)')
-    parser.add_argument('--ratio', type=str, help='Ratio (required for custom mode)')
-
-    # Parse the arguments
-    args = parser.parse_args()
 
     # Determine which function to run based on the mode
     if args.mode == "original":
