@@ -478,8 +478,8 @@ if __name__ == "__main__":
 
     # Add arguments
     parser.add_argument('mode', type=str, choices=['original', 'custom'], help='Mode of operation: original or custom')
-    parser.add_argument('dataset_name', type=str, nargs='?', help='Name of the dataset (required for custom mode)')
-    parser.add_argument('ratio', type=str, nargs='?', help='Ratio (required for custom mode)')
+    parser.add_argument('--dataset_name', type=str, help='Name of the dataset (required for custom mode)')
+    parser.add_argument('--ratio', type=str, help='Ratio (required for custom mode)')
 
     # Parse the arguments
     args = parser.parse_args()
@@ -487,9 +487,9 @@ if __name__ == "__main__":
     # Determine which function to run based on the mode
     if args.mode == "original":
         original_run()
-    else:
+    elif args.mode == "custom":
         if not args.dataset_name or not args.ratio:
-            parser.error("dataset_name and ratio are required for custom mode")
-        run_custom_exp(args.dataset_name, args.ratio)     
-        
-    
+            parser.error("Both --dataset_name and --ratio are required for custom mode")
+        run_custom_exp(args.dataset_name, args.ratio)
+    else:
+        parser.error("Unrecognized mode")
