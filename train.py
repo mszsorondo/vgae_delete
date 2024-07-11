@@ -27,7 +27,7 @@ parser = argparse.ArgumentParser(description="Variant Graph Auto Encoder")
 
 parser.add_argument('mode', type=str, choices=['original', 'custom'], help='Mode of operation: original or custom')
 parser.add_argument('--dataset_name', type=str, help='Name of the dataset (required for custom mode)')
-parser.add_argument('--ratio', type=str, help='Ratio (required for custom mode)')
+parser.add_argument('--ratio', type=int, help='Ratio (required for custom mode)')
 
 parser.add_argument(
     "--learning_rate", type=float, default=0.01, help="Initial learning rate."
