@@ -458,7 +458,7 @@ def run():
 def run_custom_exp(dataset_name, neg_to_pos_edge_ratio):
     results_all = {"cora": [], "citeseer": [], "pubmed": [], }
     runs_dict = {"roc": [], "ap": [], "dataset": dataset_name, "ratios": []}
-    print(f"Dataset name: {dataset_name}, ratio: {ratio}")
+    print(f"Dataset name: {dataset_name}, ratio: {neg_to_pos_edge_ratio}")
     dgl_main(test_val_neg_to_pos_edge_ratio=neg_to_pos_edge_ratio, 
              runs_dict=runs_dict, print_loopwise=True, dataset_name=dataset_name)
     print(runs_dict)
@@ -466,7 +466,7 @@ def run_custom_exp(dataset_name, neg_to_pos_edge_ratio):
     print(f"Mean AP for 10 runs: {np.array(runs_dict['ap']).mean()}")
     runs_dict["mean_auc"] = np.array(runs_dict['roc']).mean()
     runs_dict["mean_ap"] = np.array(runs_dict['ap']).mean()
-    runs_dict["ratios"].append(ratio)
+    runs_dict["ratios"].append(neg_to_pos_edge_ratio)
     results_all[dataset_name].append(runs_dict)
     time.sleep(1)
 
