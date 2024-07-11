@@ -473,9 +473,11 @@ def original_run():
 
 if __name__ == "__main__":
     #original_run()
-    dataset_name = sys.argv[1]
-    ratio = sys.argv[2]
-    run_custom_exp(dataset_name,ratio)
-        
+    if sys.argv[1]!="original":
+        dataset_name = sys.argv[2]
+        ratio = sys.argv[3]
+        run_custom_exp(dataset_name,ratio)
+    else:
+        original_run()     
         
     
