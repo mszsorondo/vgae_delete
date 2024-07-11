@@ -471,9 +471,9 @@ def run_custom_exp(dataset_name, neg_to_pos_edge_ratio):
     time.sleep(1)
 
 def original_run():
-    for dataset in datasets:
-        args.dataset = dataset
-        dgl_main(test_val_neg_to_pos_edge_ratio=1, runs_dict = {"roc": [], "ap": []}, print_loopwise=True)
+    
+    args.dataset = "cora"
+    dgl_main(test_val_neg_to_pos_edge_ratio=1, runs_dict = {"roc": [], "ap": []}, print_loopwise=True)
 
 
 
