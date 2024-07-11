@@ -8,6 +8,7 @@ import model
 import numpy as np
 import scipy.sparse as sp
 import torch
+import sys
 import torch.nn.functional as F
 from dgl.data import CiteseerGraphDataset, CoraGraphDataset, PubmedGraphDataset
 from input_data import load_data
@@ -448,14 +449,33 @@ def run():
         #with open(f"results_{args.datasrc}.pkl", "rb") as f:
             #results = pickle.load(f)
 
+def run_custom_exp(dataset_name, neg_to_pos_edge_ratio):
+    results_all = {"cora": [], "citeseer": [], "pubmed": [], }
+    runs_dict = {"roc": [], "ap": [], "dataset": dataset_name, "ratios": []}
+    print(f"Dataset name: {dataset_name}, ratio: {ratio}")
+    dgl_main(test_val_neg_to_pos_edge_ratio=neg_to_pos_edge_ratio, 
+             runs_dict=runs_dict, print_loopwise=True, dataset_name=dataset_name)
+    print(runs_dict)
+    print(f"Mean AUC for 10 runs: {np.array(runs_dict['roc']).mean()}")
+    print(f"Mean AP for 10 runs: {np.array(runs_dict['ap']).mean()}")
+    runs_dict["mean_auc"] = np.array(runs_dict['roc']).mean()
+    runs_dict["mean_ap"] = np.array(runs_dict['ap']).mean()
+    runs_dict["ratios"].append(ratio)
+    results_all[dataset_name].append(runs_dict)
+    time.sleep(1)
+
 def original_run():
     for dataset in datasets:
         args.dataset = dataset
         dgl_main(test_val_neg_to_pos_edge_ratio=1, runs_dict = {"roc": [], "ap": []}, print_loopwise=True)
 
+
+
 if __name__ == "__main__":
     #original_run()
-    run()
+    dataset_name = sys.argv[1]
+    ratio = sys.argv[2]
+    run_custom_exp(dataset_name,ratio)
         
         
     
