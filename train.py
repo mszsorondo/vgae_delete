@@ -19,6 +19,8 @@ from preprocess import (
     sparse_to_tuple,
 )
 from sklearn.metrics import average_precision_score, roc_auc_score
+import argparse
+
 
 os.environ["KMP_DUPLICATE_LIB_OK"] = "True"
 
@@ -472,12 +474,22 @@ def original_run():
 
 
 if __name__ == "__main__":
-    #original_run()
-    if sys.argv[1]!="original":
-        dataset_name = sys.argv[2]
-        ratio = sys.argv[3]
-        run_custom_exp(dataset_name,ratio)
+    parser = argparse.ArgumentParser(description='Run experiments.')
+
+    # Add arguments
+    parser.add_argument('mode', type=str, choices=['original', 'custom'], help='Mode of operation: original or custom')
+    parser.add_argument('dataset_name', type=str, nargs='?', help='Name of the dataset (required for custom mode)')
+    parser.add_argument('ratio', type=str, nargs='?', help='Ratio (required for custom mode)')
+
+    # Parse the arguments
+    args = parser.parse_args()
+
+    # Determine which function to run based on the mode
+    if args.mode == "original":
+        original_run()
     else:
-        original_run()     
+        if not args.dataset_name or not args.ratio:
+            parser.error("dataset_name and ratio are required for custom mode")
+        run_custom_exp(args.dataset_name, args.ratio)     
         
     
