@@ -116,7 +116,7 @@ def get_scores(edges_pos, edges_neg, adj_rec):
     return roc_score, ap_score
 
 
-def dgl_main(test_val_neg_to_pos_edge_ratio = 1, runs_dict = None, print_loopwise=True, dataset_name = "cora"):
+def dgl_main(test_val_neg_to_pos_edge_ratio = 1, runs_dict = None, print_loopwise=False, dataset_name = "cora"):
 
 
     # Load from DGL dataset
@@ -435,10 +435,10 @@ def run():
             
             if args.datasrc == "dgl":
                 print(f"Dataset name: {dataset}, ratio: {ratio}")
-                dgl_main(test_val_neg_to_pos_edge_ratio=ratio, runs_dict=runs_dict, print_loopwise=True, dataset_name=dataset)
+                dgl_main(test_val_neg_to_pos_edge_ratio=ratio, runs_dict=runs_dict, print_loopwise=False, dataset_name=dataset)
                 print(runs_dict)
-                print(f"Mean AUC for 10 runs: {np.array(runs_dict['roc']).mean()}")
-                print(f"Mean AP for 10 runs: {np.array(runs_dict['ap']).mean()}")
+                print(f"AUC: {np.array(runs_dict['roc']).mean()}")
+                print(f"AP: {np.array(runs_dict['ap']).mean()}")
                 runs_dict["mean_auc"] = np.array(runs_dict['roc']).mean()
                 runs_dict["mean_ap"] = np.array(runs_dict['ap']).mean()
                 runs_dict["ratios"].append(ratio)
@@ -460,10 +460,10 @@ def run_custom_exp(dataset_name, neg_to_pos_edge_ratio):
     runs_dict = {"roc": [], "ap": [], "dataset": dataset_name, "ratios": []}
     print(f"Dataset name: {dataset_name}, ratio: {neg_to_pos_edge_ratio}")
     dgl_main(test_val_neg_to_pos_edge_ratio=neg_to_pos_edge_ratio, 
-             runs_dict=runs_dict, print_loopwise=True, dataset_name=dataset_name)
+             runs_dict=runs_dict, print_loopwise=False, dataset_name=dataset_name)
     print(runs_dict)
-    print(f"Mean AUC for 10 runs: {np.array(runs_dict['roc']).mean()}")
-    print(f"Mean AP for 10 runs: {np.array(runs_dict['ap']).mean()}")
+    print(f"AUC: {np.array(runs_dict['roc']).mean()}")
+    print(f"AP: {np.array(runs_dict['ap']).mean()}")
     runs_dict["mean_auc"] = np.array(runs_dict['roc']).mean()
     runs_dict["mean_ap"] = np.array(runs_dict['ap']).mean()
     runs_dict["ratios"].append(neg_to_pos_edge_ratio)
@@ -473,7 +473,7 @@ def run_custom_exp(dataset_name, neg_to_pos_edge_ratio):
 def original_run():
     
     args.dataset = "cora"
-    dgl_main(test_val_neg_to_pos_edge_ratio=1, runs_dict = {"roc": [], "ap": []}, print_loopwise=True)
+    dgl_main(test_val_neg_to_pos_edge_ratio=1, runs_dict = {"roc": [], "ap": []}, print_loopwise=False)
 
 
 
