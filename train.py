@@ -25,7 +25,7 @@ os.environ["KMP_DUPLICATE_LIB_OK"] = "True"
 
 parser = argparse.ArgumentParser(description="Variant Graph Auto Encoder")
 
-parser.add_argument('mode', type=str, choices=['original', 'custom'], help='Mode of operation: original or custom')
+parser.add_argument('mode', type=str, choices=['original', 'custom', 'full'], help='Mode of operation: original or custom')
 parser.add_argument('--dataset_name', type=str, help='Name of the dataset (required for custom mode)')
 parser.add_argument('--ratio', type=int, help='Ratio (required for custom mode)')
 
@@ -424,7 +424,7 @@ def web_main():
 #     print("roc_mean=", "{:.5f}".format(roc_mean), "roc_std=", "{:.5f}".format(roc_std), "ap_mean=",
 #           "{:.5f}".format(ap_mean), "ap_std=", "{:.5f}".format(ap_std))
 
-datasets = ["citeseer", "pubmed"]
+datasets = ["citeseer", "cora"]
 def run():
     dataset_neg_to_pos_edge_ratios = [1, 5, 10, 20, 0.5, 0.2]
     results_all = {"cora": [], "citeseer": [], "pubmed": [], }
@@ -486,5 +486,7 @@ if __name__ == "__main__":
         if not args.dataset_name or not args.ratio:
             parser.error("Both --dataset_name and --ratio are required for custom mode")
         run_custom_exp(args.dataset_name, args.ratio)
+    elif args.mode == 'full':
+        run()
     else:
         parser.error("Unrecognized mode")
