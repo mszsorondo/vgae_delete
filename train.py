@@ -217,7 +217,7 @@ def dgl_main(test_val_neg_to_pos_edge_ratio = 1, runs_dict = None, print_loopwis
         val_roc, val_ap = get_scores(val_edges, val_edges_false, logits)
 
         # Print out performance
-        if print_loopwise and ((epoch + 1)%5)==0:
+        """if print_loopwise and ((epoch + 1)%5)==0:
             tqdm.write(
             "Epoch: " +
             str("%04d" % (epoch + 1)) +
@@ -226,7 +226,7 @@ def dgl_main(test_val_neg_to_pos_edge_ratio = 1, runs_dict = None, print_loopwis
             "val_ap="+
             str("{:.5f}".format(val_ap))
             
-            )
+            )"""
 
     test_roc, test_ap = get_scores(test_edges, test_edges_false, logits)
     # roc_means.append(test_roc)
@@ -486,7 +486,7 @@ if __name__ == "__main__":
         if not args.dataset_name or not args.ratio:
             parser.error("Both --dataset_name and --ratio are required for custom mode")
         run_custom_exp(args.dataset_name, args.ratio)
-    elif args.mode == 'full':
+    elif args.mode == "full":
         run()
     else:
         parser.error("Unrecognized mode")
