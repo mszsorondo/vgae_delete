@@ -436,13 +436,6 @@ def run():
             if args.datasrc == "dgl":
                 print(f"Dataset name: {dataset}, ratio: {ratio}")
                 dgl_main(test_val_neg_to_pos_edge_ratio=ratio, runs_dict=runs_dict, print_loopwise=False, dataset_name=dataset)
-                print(runs_dict)
-                print(f"AUC: {np.array(runs_dict['roc']).mean()}")
-                print(f"AP: {np.array(runs_dict['ap']).mean()}")
-                runs_dict["mean_auc"] = np.array(runs_dict['roc']).mean()
-                runs_dict["mean_ap"] = np.array(runs_dict['ap']).mean()
-                runs_dict["ratios"].append(ratio)
-                results_all[dataset].append(runs_dict)
                 time.sleep(1)
 
             elif args.datasrc == "website":
